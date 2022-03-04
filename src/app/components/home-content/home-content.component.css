@@ -1,0 +1,5 @@
+#home-content {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: center;
+}

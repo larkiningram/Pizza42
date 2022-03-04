@@ -1,0 +1,9 @@
+<div id="home-content" class="next-steps my-5">
+    <h1>Welcome to Pizza42</h1>
+    <h3
+      *ngIf="(auth.isAuthenticated$ | async) === false"
+    >Please login to order</h3>
+  <h3
+    *ngIf="(auth.isAuthenticated$ | async) === true"
+  >We're happy to have you back</h3>
+</div>
