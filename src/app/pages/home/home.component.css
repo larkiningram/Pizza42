@@ -1,0 +1,7 @@
+#home {
+  background: url("src/assets/pizza-background.jpeg") no-repeat;
+  background-size: cover;
+  height: 750px;
+  margin: 0 auto;
+  padding: 100px;
+}

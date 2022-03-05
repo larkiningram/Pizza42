@@ -17,7 +17,7 @@ import { HomeContentComponent } from './components/home-content/home-content.com
 import { LoadingComponent } from './components/loading/loading.component';
 import { ExternalApiComponent } from './pages/external-api/external-api.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import { AuthHttpInterceptor, AuthModule, HttpMethod } from '@auth0/auth0-angular';
 import { environment as env } from '../environments/environment';
 import { UserMetadataComponent } from './components/user-metadata/user-metadata.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -53,7 +53,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
       audience: env.auth.audience,
 
       // Request this scope at user authentication time
-      scope: 'read:current_user',
+      scope: env.auth.scope,
 
       // Specify configuration for the interceptor
       httpInterceptor: {
@@ -66,9 +66,20 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
               audience: env.auth.audience,
 
               // The attached token should have these scopes
-              scope: 'read:current_user'
+              scope: env.auth.scope
             }
-          }
+          },
+          {
+            // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
+            uri: 'https://login.auth0.com/api/v2/*',
+            tokenOptions: {
+              // The attached token should target this audience
+              audience: 'https://login.auth0.com/api/v2/',
+
+              // The attached token should have these scopes
+              scope: env.auth.scope
+            }
+          },
         ]
       }
     }),

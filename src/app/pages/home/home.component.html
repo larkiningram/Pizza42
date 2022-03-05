@@ -1,7 +1,9 @@
-<div class="container" *ngIf="auth.isLoading$ | async; else loaded">
-  <app-loading></app-loading>
-</div>
+<div id="home">
+  <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
+    <app-loading></app-loading>
+  </div>
 
-<ng-template #loaded>
-  <app-home-content></app-home-content>
-</ng-template>
+  <ng-template #loaded>
+    <app-home-content></app-home-content>
+  </ng-template>
+</div>

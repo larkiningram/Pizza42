@@ -1,0 +1,14 @@
+#order-here {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#orderBtn {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 200px;
+}
