@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import * as config from '../../auth_config.json';
+import config from '../../auth_config.json';
 import { AuthService } from '@auth0/auth0-angular';
 import { concatMap, tap, pluck } from 'rxjs/operators';
 import { environment as env } from '../environments/environment';
