@@ -72,17 +72,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
               scope: env.auth.scope
             }
           },
-          {
-            // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
-            uri: 'https://login.auth0.com/api/v2/*',
-            tokenOptions: {
-              // The attached token should target this audience
-              audience: 'https://login.auth0.com/api/v2/',
-
-              // The attached token should have these scopes
-              scope: env.auth.scope
-            }
-          },
         ]
       }
     }),
