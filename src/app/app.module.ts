@@ -21,6 +21,7 @@ import { AuthHttpInterceptor, AuthModule, HttpMethod } from '@auth0/auth0-angula
 import { environment as env } from '../environments/environment';
 import { UserMetadataComponent } from './components/user-metadata/user-metadata.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     NgbModule,
     HighlightModule,
     FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
       domain: env.auth.domain,

@@ -6,6 +6,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // Import AuthService from the Auth0 Angular SDK to get access to the user
 import { AuthService } from '@auth0/auth0-angular';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MetadataModel} from "../../types/metadata.model";
+import {UserMetadataComponent} from "../../components/user-metadata/user-metadata.component";
 
 @Component({
   selector: 'app-external-api',
@@ -17,13 +20,19 @@ export class ExternalApiComponent {
   audience = this.configFactory.get()?.audience;
   hasApiError = false;
   token = '';
-  metadata = {};
-  order = { "pizzaType": "cheese" }
+  metadata: MetadataModel = {orders: []};
+  orders = { 'orders': [] };
+  showForm = false;
+  form: FormGroup;
+  submitted = false;
+  isEmailVerified = false;
+
   constructor(
     private api: ApiService,
     public auth: AuthService,
     private http: HttpClient,
-    private configFactory: AuthClientConfig
+    private configFactory: AuthClientConfig,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -36,9 +45,22 @@ export class ExternalApiComponent {
           )
         ),
         pluck('user_metadata'),
-        tap((meta) => (this.metadata = meta))
+        tap((meta: unknown) => {
+
+          if (meta.hasOwnProperty('orders')) {
+            this.metadata.orders.concat(meta['orders']);
+          }
+        })
       )
       .subscribe();
+
+    this.form = this.formBuilder.group(
+        {
+          size: ['', Validators.required],
+          quantity: ['', [Validators.required, Validators.pattern(/^[0-9]+/)]],
+          acceptTerms: [false, Validators.requiredTrue]
+        }
+    );
   }
 
   getUserData() {
@@ -46,23 +68,19 @@ export class ExternalApiComponent {
       next: (res) => {
         this.hasApiError = false;
         if (res['email_verified'] === false) {
-          alert('Please verify your email before you order!');
+          this.isEmailVerified = false;
         }
+        this.isEmailVerified = true;
       },
       error: () => this.hasApiError = true,
     });
   }
 
   orderPizza() {
-    const formData =
     this.getUserData();
-    this.api.order$(this.metadata).subscribe({
-      next: (res) => {
-        this.hasApiError = false;
-        this.responseJson = JSON.stringify(res, null, 2).trim();
-      },
-      error: () => this.hasApiError = true,
-    });
+    if (this.isEmailVerified) {
+        this.showForm = true;
+    }
   }
 
   pingApi() {
@@ -73,5 +91,30 @@ export class ExternalApiComponent {
       },
       error: () => this.hasApiError = true,
     });
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
+    this.api.order$(this.form.value, this.metadata).subscribe({
+      next: (res) => {
+        this.hasApiError = false;
+        this.responseJson = JSON.stringify(res, null, 2).trim();
+        console.log('responseJson:', this.responseJson);
+      },
+      error: () => this.hasApiError = true,
+    });
+    console.log(JSON.stringify(this.form.value, null, 2));
+  }
+
+  onReset(): void {
+    this.submitted = false;
+    this.form.reset();
   }
 }

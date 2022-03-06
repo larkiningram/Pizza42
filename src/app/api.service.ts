@@ -31,30 +31,29 @@ export class ApiService {
       )
   }
 
-  order$(meta: object): Observable<any> {
+  order$(order: any, meta: any): Observable<any> {
     this.auth.getAccessTokenSilently().subscribe(res => {
-      console.log('in api');
       const headers = {
         'authorization': `Bearer ${res}`,
         'content-type': 'application/json'
       }
-      const body = {'user_metadata': {'test': 'data'}};
+      let history = meta.orders;
+      history.push(order);
+      const add = { "user_metadata": {
+          "orders": history
+        }
+      };
       const options = {
         headers: headers,
-        options: body
+        options: add
       };
-      console.log(headers);
-      this.auth.user$
-        .pipe(
-          concatMap((user) =>
-            // Use HttpClient to make the call
-            this.http.patch(
-              encodeURI(`${env.auth.audience}users/${user.sub}`),
-              JSON.stringify({'user_metadata': {'test': 'data'}}),
-              options
-            )
-          )
-        );
+      this.auth.user$.subscribe(user => {
+        this.http.patch(
+          encodeURI(`${env.auth.audience}users/${user.sub}`),
+          JSON.stringify(add),
+          options
+        ).subscribe(res => console.log('res', res));
+      });
     });
     return this.getUserData$();
   }

@@ -1,10 +1,69 @@
 <div id="order-here" class="container mt-5">
   <h1>Order Here!</h1>
   <br>
+<!--  <h3 *ngIf="!isEmailVerified">Please verify your email address before you order</h3>-->
   <button
     id="orderBtn"
     type="submit"
     class="btn btn-primary btn-margin"
     (click)="orderPizza()"
   ><span>Order a Pizza</span></button>
+</div>
+
+
+<div *ngIf="showForm" class="register-form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Size</label>
+      <input
+        type="text"
+        formControlName="size"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.size.errors }"
+      />
+      <div *ngIf="submitted && f.size.errors" class="invalid-feedback">
+        <div *ngIf="f.size.errors.required">Size is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Quantity</label>
+      <input
+        type="text"
+        formControlName="quantity"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"
+      />
+      <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+        <div *ngIf="f.quantity.errors.required">Quantity is required</div>
+        <div *ngIf="f.quantity.errors.pattern">
+          Quantity must be numeric
+        </div>
+      </div>
+    </div>
+    <div class="form-group form-check">
+      <input
+        type="checkbox"
+        formControlName="acceptTerms"
+        class="form-check-input"
+        id="acceptTerms"
+        [ngClass]="{ 'is-invalid': submitted && f.acceptTerms.errors }"
+      />
+      <label for="acceptTerms" class="form-check-label"
+      >I have read and agree to the Terms</label
+      >
+      <div *ngIf="submitted && f.acceptTerms.errors" class="invalid-feedback">
+        Accept Terms is required
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Register</button>
+      <button
+              type="button"
+              (click)="onReset()"
+              class="btn btn-warning float-right"
+      >
+        Reset
+      </button>
+    </div>
+  </form>
 </div>
