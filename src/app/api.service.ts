@@ -67,7 +67,6 @@ export class ApiService {
     }
 
     order$(order: any, meta: any): Observable<any> {
-        console.log('in order$')
         let history = meta.orders;
         history.push(order);
         const add = {
