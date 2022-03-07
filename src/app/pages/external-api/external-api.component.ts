@@ -99,16 +99,12 @@ export class ExternalApiComponent {
     if (!!this.isEmailVerified) {
       this.orders = this.form.value;
       this.orders['order_time'] = new Date();
-      this.api.order$(this.form.value, this.metadata).subscribe({
+      this.api.order$(this.form.value, this.metadata).pipe(first()).subscribe({
         next: (res) => {
-          this.hasApiError = false;
           this.responseJson = JSON.stringify(res, null, 2).trim();
-          console.log('responseJson:', this.responseJson);
         },
         error: () => this.hasApiError = true,
       });
-      alert('You have successfully ordered a pizza!');
-      console.log(JSON.stringify(this.form.value, null, 2));
     }
   }
 

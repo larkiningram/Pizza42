@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import config from '../../auth_config.json';
 import { AuthService } from '@auth0/auth0-angular';
-import { concatMap, tap, pluck } from 'rxjs/operators';
+import {concatMap, first} from 'rxjs/operators';
 import { environment as env } from '../environments/environment';
 
 
@@ -14,6 +14,7 @@ export class ApiService {
   constructor(private http: HttpClient, private auth: AuthService) {}
   verified;
   data = {};
+  hasApiError = false;
   ping$(): Observable<any> {
     console.log(config.apiUri);
     return this.http.get(`${config.apiUri}/api/external`);
@@ -47,12 +48,23 @@ export class ApiService {
         headers: headers,
         options: add
       };
-      this.auth.user$.subscribe(user => {
+      this.auth.user$.pipe(first()).subscribe(user => {
         this.http.patch(
           encodeURI(`${env.auth.audience}users/${user.sub}`),
           JSON.stringify(add),
           options
-        ).subscribe(res => console.log('res', res));
+        ).subscribe({
+            next: (res) => {
+              this.hasApiError = false;
+              const responseJson = JSON.stringify(res, null, 2).trim();
+              console.log('responseJson:', responseJson);
+              alert('You have successfully ordered a pizza!');
+            },
+            error: () => {
+              this.hasApiError = true
+              alert('You do not have permissions to order a pizza');
+            },
+        });
       });
     });
     return this.getUserData$();
