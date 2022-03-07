@@ -48,7 +48,7 @@ export class ExternalApiComponent {
         tap((meta: unknown) => {
           this.metadata = {orders: []};
           if (meta.hasOwnProperty('orders')) {
-            this.metadata.orders.push(meta['orders']);
+            this.metadata.orders = meta['orders'];
           }
         })
       )
@@ -57,8 +57,7 @@ export class ExternalApiComponent {
     this.form = this.formBuilder.group(
         {
           size: ['', Validators.required],
-          quantity: ['', [Validators.required, Validators.pattern(/^[0-9]+/)]],
-          acceptTerms: [false, Validators.requiredTrue]
+          quantity: ['', [Validators.required, Validators.pattern(/^[0-9]+/)]]
         }
     );
   }
@@ -69,6 +68,7 @@ export class ExternalApiComponent {
         this.hasApiError = false;
         if (res['email_verified'] === false) {
           this.isEmailVerified = false;
+          alert('Please verify your email address before you order');
         }
         this.isEmailVerified = true;
       },
@@ -112,6 +112,7 @@ export class ExternalApiComponent {
       },
       error: () => this.hasApiError = true,
     });
+    alert('You have successfully ordered a pizza!');
     console.log(JSON.stringify(this.form.value, null, 2));
   }
 
