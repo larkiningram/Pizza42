@@ -29,9 +29,9 @@ app.use(
   })
 );
 
-// app.get('/*', function(req, res) {
-//   res.sendFile(path.join(__dirname + '/dist/login-demo/index.html'));
-// });
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname + '/dist/login-demo/index.html'));
+});
 
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
