@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MetadataModel} from "../../types/metadata.model";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-external-api',
@@ -38,6 +39,7 @@ export class ExternalApiComponent {
         }
     );
     this.getUserData();
+    this.checkIfEmailVerified();
   }
 
   getUserData() {
@@ -53,17 +55,15 @@ export class ExternalApiComponent {
     });
   }
 
-  checkIfEmailVerified() {
+  checkIfEmailVerified(): Observable<boolean> {
     this.api.getUserData$().pipe(first()).subscribe({
       next: (res) => {
         this.hasApiError = false;
-        if (res['email_verified'] === false) {
-          this.isEmailVerified = false;
-          alert('Please verify your email address before you order');
-        } else this.isEmailVerified = true;
+        this.isEmailVerified = res['email_verified'] !== false;
       },
       error: () => this.hasApiError = true,
     });
+    return of(this.isEmailVerified);
   }
 
   pingApi() {
@@ -80,12 +80,7 @@ export class ExternalApiComponent {
     return this.form.controls;
   }
 
-  onSubmit() {
-    this.checkIfEmailVerified();
-    this.submitted = true;
-    if (this.form.invalid) {
-      return;
-    }
+  order() {
     if (!!this.isEmailVerified) {
       this.orders = this.form.value;
       this.orders['order_time'] = new Date();
@@ -97,6 +92,18 @@ export class ExternalApiComponent {
         },
         error: () => this.hasApiError = true,
       });
+    }
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
+    if (this.isEmailVerified !== true) {
+      alert('Please verify your email address before you order');
+    } else {
+      this.order();
     }
   }
 
