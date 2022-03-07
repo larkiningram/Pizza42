@@ -6,7 +6,7 @@ const authConfig = require('./auth_config.json');
 
 const app = express();
 
-const port = process.env.SERVER_PORT || 4200;
+const port = process.env.PORT || 4200;
 
 app.use(morgan('dev'));
 
