@@ -58,6 +58,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
       // Request this scope at user authentication time
       scope: env.auth.scope,
 
+      userMetaData: env.auth.userMetaData,
       // Specify configuration for the interceptor
       httpInterceptor: {
         allowedList: [
