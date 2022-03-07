@@ -36,26 +36,7 @@ export class ExternalApiComponent {
   ) {}
 
   ngOnInit() {
-    this.auth.user$
-      .pipe(
-        concatMap((user) =>
-          // Use HttpClient to make the call
-          this.http.get(
-            encodeURI(`https://dev-mp1t49am.us.auth0.com/api/v2/users/${user.sub}`)
-          )
-        ),
-        pluck('user_metadata'),
-        tap((meta: unknown) => {
-          this.metadata = {orders: []};
-          if (meta.hasOwnProperty('orders')) {
-            this.metadata.orders = meta['orders'];
-          }
-        })
-      )
-      .subscribe();
-
-    this.form = this.formBuilder.group(
-        {
+    this.form = this.formBuilder.group({
           size: ['', Validators.required],
           quantity: ['', [Validators.required, Validators.pattern(/^[0-9]+/)]]
         }
@@ -66,6 +47,10 @@ export class ExternalApiComponent {
     this.api.getUserData$().pipe(first()).subscribe({
       next: (res) => {
         this.hasApiError = false;
+        this.metadata = {orders: []};
+        if (res.user_metadata.hasOwnProperty('orders')) {
+          this.metadata.orders = res.user_metadata['orders'];
+        }
         if (res['email_verified'] === false) {
           this.isEmailVerified = false;
           alert('Please verify your email address before you order');
