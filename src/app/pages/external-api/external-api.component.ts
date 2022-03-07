@@ -19,10 +19,8 @@ export class ExternalApiComponent {
   responseJson: string;
   audience = this.configFactory.get()?.audience;
   hasApiError = false;
-  token = '';
   metadata: MetadataModel = {orders: []};
   orders = { 'orders': [] };
-  showForm = true;
   form: FormGroup;
   submitted = false;
   isEmailVerified = false;
@@ -41,6 +39,7 @@ export class ExternalApiComponent {
           quantity: ['', [Validators.required, Validators.pattern(/^[0-9]+/)]]
         }
     );
+    this.getUserData();
   }
 
   getUserData() {
@@ -75,8 +74,7 @@ export class ExternalApiComponent {
     return this.form.controls;
   }
 
-  onSubmit(): void {
-    this.getUserData();
+  onSubmit() {
     this.submitted = true;
     if (this.form.invalid) {
       return;
