@@ -86,7 +86,9 @@ export class ExternalApiComponent {
       this.orders['order_time'] = new Date();
       this.api.order$(this.form.value, this.metadata).pipe(first()).subscribe({
         next: (res) => {
+          this.hasApiError = false;
           this.responseJson = JSON.stringify(res, null, 2).trim();
+          this.onReset();
         },
         error: () => this.hasApiError = true,
       });

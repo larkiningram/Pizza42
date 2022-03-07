@@ -54,15 +54,13 @@ export class ApiService {
           JSON.stringify(add),
           options
         ).subscribe({
-            next: (res) => {
+            next: () => {
               this.hasApiError = false;
-              const responseJson = JSON.stringify(res, null, 2).trim();
-              console.log('responseJson:', responseJson);
               alert('You have successfully ordered a pizza!');
             },
             error: () => {
               this.hasApiError = true
-              alert('You do not have permissions to order a pizza');
+              alert('Something has gone wrong! Reach out to an Auth0 rep for help.');
             },
         });
       });
