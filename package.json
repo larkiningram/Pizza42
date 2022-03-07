@@ -2,11 +2,13 @@
   "name": "pizza-42",
   "version": "0.0.0",
   "engines": {
-    "node": "16.x"
+    "node": "16.x",
+    "npm": "8.x",
+    "typescript": "4.x"
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --ssl true",
+    "start": "ng serve --ssl true && npm run prod",
     "build": "ng build --prod",
     "test": "ng test",
     "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
@@ -17,7 +19,8 @@
     "dev": "npm-run-all --parallel start server:api",
     "prod": "npm-run-all --parallel server:app server:api",
     "postbuild": "npm run copy:server",
-    "copy:server": "copyfiles server.js auth_config.json dist/login-demo"
+    "copy:server": "copyfiles server.js auth_config.json dist/login-demo",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {

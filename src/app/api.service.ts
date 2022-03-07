@@ -43,6 +43,7 @@ export class ApiService {
           "orders": history
         }
       };
+      console.log('history', history);
       const options = {
         headers: headers,
         options: add

@@ -46,9 +46,11 @@ export class ExternalApiComponent {
         ),
         pluck('user_metadata'),
         tap((meta: unknown) => {
-
+          console.log(meta);
+          this.metadata = {orders: []};
           if (meta.hasOwnProperty('orders')) {
-            this.metadata.orders.concat(meta['orders']);
+            console.log('orders');
+            this.metadata.orders.push(meta['orders']);
           }
         })
       )
@@ -102,6 +104,8 @@ export class ExternalApiComponent {
     if (this.form.invalid) {
       return;
     }
+    this.orders = this.form.value;
+    this.orders['order_time'] = new Date();
     this.api.order$(this.form.value, this.metadata).subscribe({
       next: (res) => {
         this.hasApiError = false;
