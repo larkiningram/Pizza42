@@ -46,10 +46,8 @@ export class ExternalApiComponent {
         ),
         pluck('user_metadata'),
         tap((meta: unknown) => {
-          console.log(meta);
           this.metadata = {orders: []};
           if (meta.hasOwnProperty('orders')) {
-            console.log('orders');
             this.metadata.orders.push(meta['orders']);
           }
         })

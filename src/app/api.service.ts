@@ -37,13 +37,13 @@ export class ApiService {
         'authorization': `Bearer ${res}`,
         'content-type': 'application/json'
       }
+      console.log('in api');
       let history = meta.orders;
       history.push(order);
       const add = { "user_metadata": {
           "orders": history
         }
       };
-      console.log('history', history);
       const options = {
         headers: headers,
         options: add

@@ -6,5 +6,4 @@ export interface OrderModel {
     //time
     size: string;
     quantity: string;
-    acceptTerms: boolean;
 }

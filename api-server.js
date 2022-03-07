@@ -20,6 +20,7 @@ if (
   process.exit();
 }
 
+app.use(express.static(__dirname + '/dist/login-demo'));
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(
@@ -27,6 +28,10 @@ app.use(
     origin: authConfig.appUri,
   })
 );
+
+// app.get('/*', function(req, res) {
+//   res.sendFile(path.join(__dirname + '/dist/login-demo/index.html'));
+// });
 
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
