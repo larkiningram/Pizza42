@@ -53,7 +53,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
       clientId: env.auth.clientId,
 
       // Request this audience at user authentication time
-      audience: env.auth.audience,
+      audience: env.auth.mgmtAudience,
 
       // Request this scope at user authentication time
       scope: env.auth.scope,
@@ -64,10 +64,21 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
         allowedList: [
           {
             // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
-            uri: `${env.auth.audience}*`,
+            uri: `${env.auth.mgmtAudience}*`,
             tokenOptions: {
               // The attached token should target this audience
-              audience: env.auth.audience,
+              audience: env.auth.mgmtAudience,
+
+              // The attached token should have these scopes
+              scope: env.auth.scope
+            }
+          },
+          {
+            // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
+            uri: `${env.auth.customAudience}*`,
+            tokenOptions: {
+              // The attached token should target this audience
+              audience: env.auth.customAudience,
 
               // The attached token should have these scopes
               scope: env.auth.scope

@@ -50,6 +50,8 @@ export class ExternalApiComponent {
         if (res.user_metadata.hasOwnProperty('orders')) {
           this.metadata.orders = res.user_metadata['orders'];
         }
+        console.log(this.metadata);
+        console.log(res);
       },
       error: () => this.hasApiError = true,
     });
@@ -58,6 +60,7 @@ export class ExternalApiComponent {
   checkIfEmailVerified(): Observable<boolean> {
     this.api.getUserData$().pipe(first()).subscribe({
       next: (res) => {
+        console.log(res);
         this.hasApiError = false;
         this.isEmailVerified = res['email_verified'] !== false;
       },
@@ -97,6 +100,7 @@ export class ExternalApiComponent {
 
   onSubmit() {
     this.submitted = true;
+    console.log(this.isEmailVerified);
     if (this.form.invalid) {
       return;
     }

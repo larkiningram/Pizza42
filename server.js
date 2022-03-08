@@ -6,6 +6,19 @@ const authConfig = require('./auth_config.json');
 
 const app = express();
 
+const config = {
+  domain: process.env.DOMAIN || authConfig.domain,
+  clientId: process.env.CLIENT_ID || authConfig.clientId,
+  customAudience: process.env.CUSTOM_AUDIENCE || authConfig.customAudience,
+  mgmtAudience: process.env.MGMT_AUDIENCE || authConfig.mgmtAudience,
+  appUrl: process.env.APP_URL || authConfig.appUrl,
+  apiUri: process.env.API_URI || authConfig.apiUri,
+  scope: process.env.SCOPE || authConfig.scope,
+  userMetaData: process.env.USER_METADATA || authConfig.userMetaData,
+};
+
+module.exports = { config };
+
 const port = process.env.PORT || 4200;
 
 app.use(morgan('dev'));
