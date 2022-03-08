@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const { join } = require('path');
-const authConfig = require('./auth_config.json');
+const authConfig = require('./auth_config.js');
 
 const app = express();
 

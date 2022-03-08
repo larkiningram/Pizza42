@@ -10,8 +10,8 @@ const app = express();
 
 if (
   !authConfig.domain ||
-  !authConfig.audience ||
-  authConfig.audience === "YOUR_API_IDENTIFIER"
+  !authConfig.customAudience ||
+  authConfig.customAudience === "YOUR_API_IDENTIFIER"
 ) {
   console.log(
     "Exiting: Please make sure that auth_config.json is in place and populated with valid domain and audience values"
@@ -41,7 +41,7 @@ const checkJwt = jwt({
     jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
   }),
 
-  audience: authConfig.audience,
+  audience: authConfig.customAudience,
   issuer: `https://${authConfig.domain}/`,
   algorithms: ['RS256'],
 });

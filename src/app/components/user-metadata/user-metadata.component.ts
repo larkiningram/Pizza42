@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { concatMap, tap, pluck } from 'rxjs/operators';
 // Import the HttpClient for making API requests
 import { HttpClient } from '@angular/common/http';
-
+import {environment as env} from "../../../environments/environment";
 // Import AuthService from the Auth0 Angular SDK to get access to the user
 import { AuthService } from '@auth0/auth0-angular';
 
@@ -25,7 +25,7 @@ export class UserMetadataComponent implements OnInit {
         concatMap((user) =>
           // Use HttpClient to make the call
           this.http.get(
-            encodeURI(`https://dev-mp1t49am.us.auth0.com/api/v2/users/${user.sub}`)
+            encodeURI(`${env.auth.mgmtAudience}users/${user.sub}`)
           )
         ),
         pluck('user_metadata'),

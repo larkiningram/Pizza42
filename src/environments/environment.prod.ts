@@ -1,13 +1,15 @@
-import config from '../../auth_config.json';
+import {config as config} from "../../auth_config.js";
 
-const { domain, clientId, audience, apiUri, errorPath, scope, userMetaData } = config as {
-  domain: string;
-  clientId: string;
-  audience?: string;
-  apiUri: string;
-  errorPath: string;
-  scope: string;
-  userMetaData: string;
+const { domain, clientId, customAudience, mgmtAudience, apiUri, appUri, errorPath, scope, userMetaData} = config as {
+  domain?: string;
+  clientId?: string;
+  customAudience?: string;
+  mgmtAudience?: string;
+  apiUri?: string;
+  appUri?: string;
+  errorPath?: string;
+  scope?: string;
+  userMetaData?: string;
 };
 
 export const environment = {
@@ -15,8 +17,10 @@ export const environment = {
   auth: {
     domain,
     clientId,
-    ...(audience && audience !== "YOUR_API_IDENTIFIER" ? { audience } : null),
+    customAudience,
+    mgmtAudience,
     redirectUri: window.location.origin,
+    appUri,
     errorPath,
     scope,
     userMetaData
