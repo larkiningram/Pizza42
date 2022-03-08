@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import config from './../../server.js';
+import {environment as env} from "./../environments/environment";
 import {AuthService} from '@auth0/auth0-angular';
 import {concatMap, first, mergeMap} from 'rxjs/operators';
 
@@ -15,10 +15,10 @@ export class ApiService {
 
     hasApiError = false;
 
-    ping$(): Observable<any> {
-        console.log(config.apiUri);
-        return this.http.get(`${config.apiUri}/api/external`);
-    }
+    // ping$(): Observable<any> {
+    //     console.log(config.apiUri);
+    //     return this.http.get(`${env.auth.apiUrl}/api/external`);
+    // }
 
     getUserData$(): Observable<any> {
         return this.auth.user$
@@ -26,7 +26,7 @@ export class ApiService {
                 concatMap((user) =>
                     // Use HttpClient to make the call
                     this.http.get(
-                        encodeURI(`${config.mgmtAudience}users/${user.sub}`),
+                        encodeURI(`${env.auth.mgmtAudience}users/${user.sub}`),
                     )
                 )
             )
@@ -49,7 +49,7 @@ export class ApiService {
             options: add
         };
         this.http.patch(
-            encodeURI(`${config.mgmtAudience}users/${user.sub}`),
+            encodeURI(`${env.auth.mgmtAudience}users/${user.sub}`),
             JSON.stringify(options.options),
             options
         ).subscribe({

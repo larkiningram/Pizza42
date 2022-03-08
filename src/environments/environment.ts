@@ -1,4 +1,4 @@
-import config from "../../server";
+import {config as config} from "../../auth_config.js";
 
 const { domain, clientId, customAudience, mgmtAudience, apiUri, appUri, errorPath, scope, userMetaData} = config as {
   domain?: string;
@@ -17,8 +17,8 @@ export const environment = {
   auth: {
     domain,
     clientId,
-    customAudience,// ...(customAudience && customAudience !== 'YOUR_API_IDENTIFIER' ? { customAudience } : null),
-    mgmtAudience, // ...(mgmtAudience && mgmtAudience !== 'YOUR_API_IDENTIFIER' ? { mgmtAudience } : null ),
+    ...(customAudience && customAudience !== 'YOUR_API_IDENTIFIER' ? { customAudience } : null),
+    ...(mgmtAudience && mgmtAudience !== 'YOUR_API_IDENTIFIER' ? { mgmtAudience } : null ),
     redirectUri: window.location.origin,
     appUri,
     errorPath,

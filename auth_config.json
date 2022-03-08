@@ -1,10 +1,11 @@
 {
-  "domain": "<YOUR_DOMAIN>",
-  "clientId": "<YOUR_CLIENTID",
-  "audience": "<YOUR_AUDIENCE>",
+  "domain": "dev-mp1t49am.us.auth0.com",
+  "clientId": "A5dqBewQ2fzL462nHybMzFqfW68StSMi",
+  "mgmtAudience": "https://dev-mp1t49am.us.auth0.com/api/v2/",
+  "customAudience": "https://larkins-auth.com/api/v2/",
   "apiUri": "http://localhost:3001",
   "appUri": "https://localhost:4200",
   "errorPath": "/error",
-  "scope": "<YOUR_SCOPE>",
+  "scope": "openid profile email update:current_user_metadata read:current_user ",
   "userMetaData": ""
 }

@@ -69,15 +69,15 @@ export class ExternalApiComponent {
     return of(this.isEmailVerified);
   }
 
-  pingApi() {
-    this.api.ping$().subscribe({
-      next: (res) => {
-        this.hasApiError = false;
-        this.responseJson = JSON.stringify(res, null, 2).trim();
-      },
-      error: () => this.hasApiError = true,
-    });
-  }
+  // pingApi() {
+  //   this.api.ping$().subscribe({
+  //     next: (res) => {
+  //       this.hasApiError = false;
+  //       this.responseJson = JSON.stringify(res, null, 2).trim();
+  //     },
+  //     error: () => this.hasApiError = true,
+  //   });
+  // }
 
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
