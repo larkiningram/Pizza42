@@ -1,10 +1,10 @@
 {
-  "domain": "dev-mp1t49am.us.auth0.com",
-  "clientId": "A5dqBewQ2fzL462nHybMzFqfW68StSMi",
-  "audience": "https://dev-mp1t49am.us.auth0.com/api/v2/",
+  "domain": "<YOUR_DOMAIN>",
+  "clientId": "<YOUR_CLIENTID",
+  "audience": "<YOUR_AUDIENCE>",
   "apiUri": "http://localhost:3001",
   "appUri": "https://localhost:4200",
   "errorPath": "/error",
-  "scope": "openid profile email update:current_user_metadata read:current_user ",
+  "scope": "<YOUR_SCOPE>",
   "userMetaData": ""
 }
