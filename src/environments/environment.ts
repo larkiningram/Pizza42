@@ -1,4 +1,4 @@
-import {config as config} from "../../auth_config.js";
+import config from "../../auth_config.json";
 
 const { domain, clientId, customAudience, mgmtAudience, apiUri, appUri, errorPath, scope, userMetaData} = config as {
   domain?: string;
